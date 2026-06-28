@@ -145,12 +145,12 @@ const ACTIVITY_DATA = [
 
 // --- Components ---
 
-const GlassPanel = ({ children, className, noPadding = false }: { children: React.ReactNode, className?: string, noPadding?: boolean }) => (
+const GlassPanel = ({ children, className, noPadding = false, ...props }: { children: React.ReactNode, className?: string, noPadding?: boolean } & React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn(
     "relative overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl",
     !noPadding && "p-6",
     className
-  )}>
+  )} {...props}>
     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
     {children}
   </div>
