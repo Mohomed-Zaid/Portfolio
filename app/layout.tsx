@@ -6,8 +6,11 @@ export const metadata: Metadata = {
   description: "Futuristic developer portfolio",
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/logo.avif", type: "image/avif" },
+      { url: "/icon.avif", type: "image/avif" },
+    ],
+    apple: [
+      { url: "/apple-icon.avif", type: "image/avif" },
     ],
   },
 };
