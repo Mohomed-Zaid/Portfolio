@@ -26,7 +26,68 @@ import {
   BarChart3,
   Briefcase,
   User,
-  Github
+  Github,
+  Bot,
+  Send,
+  Code2,
+  FileText,
+  Trophy,
+  Wifi,
+  Server,
+  Database,
+  Play,
+  Lock,
+  ShieldCheck,
+  Sparkles,
+  Coffee,
+  Monitor,
+  UserRound,
+  Users,
+  ShoppingCart,
+  Settings,
+  LogOut,
+  Box,
+  Star,
+  Workflow,
+  ArrowUpRight,
+  ScrollText,
+  Download,
+  CreditCard,
+  FileText as FileTextIcon,
+  Map,
+  Route,
+  BarChart as BarChartIcon,
+  Search,
+  Plus,
+  DollarSign,
+  Clock,
+  Clipboard,
+  CheckCircle,
+  AlertCircle,
+  ChevronDown,
+  Award,
+  GraduationCap,
+  FolderKanban,
+  Shield,
+  Smartphone,
+  Eye,
+  BookOpen,
+  GitBranch,
+  Cloud,
+  Rocket,
+  HardDrive,
+  Laptop,
+  Mail,
+  FileCheck,
+  FileSearch,
+  FileCode,
+  FileQuestion,
+  TrendingUp,
+  Users2,
+  CheckSquare,
+  MessageCircle,
+  ExternalLink,
+  ArrowRightLeft
 } from 'lucide-react';
 import { 
   Radar, 
@@ -39,19 +100,40 @@ import {
   Area,
   XAxis,
   YAxis,
-  Tooltip
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+  Bar
 } from 'recharts';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-// Utility for cleaner tailwind classes
+// --- Utility ---
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 // --- Types ---
-
-type ModuleType = 'home' | 'projects' | 'skills' | 'timeline' | 'contact';
+type ModuleType = 
+  | 'home' 
+  | 'projects' 
+  | 'skills' 
+  | 'timeline' 
+  | 'contact' 
+  | 'terminal' 
+  | 'achievements' 
+  | 'resume' 
+  | 'demo' 
+  | 'showcase' 
+  | 'architecture' 
+  | 'code-quality' 
+  | 'freelance' 
+  | 'testimonials' 
+  | 'devops' 
+  | 'case-studies' 
+  | 'analytics' 
+  | 'system-health';
 
 interface Project {
   id: string;
@@ -60,6 +142,18 @@ interface Project {
   tags: string[];
   imageColor: string;
   category: 'fullstack' | 'frontend' | 'mobile';
+  problem: string;
+  solution: string;
+  architecture: {
+    frontend: string[];
+    backend: string[];
+    database: string[];
+    api: string[];
+    deployment: string[];
+  };
+  challenges: string[];
+  results: string;
+  showcase: React.ReactNode;
 }
 
 interface Log {
@@ -70,8 +164,30 @@ interface Log {
   details: string;
 }
 
-// --- Mock Data ---
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+}
 
+interface Testimonial {
+  id: string;
+  client: string;
+  project: string;
+  rating: number;
+  feedback: string;
+}
+
+interface CaseStudy {
+  id: string;
+  problem: string;
+  solution: string;
+  technology: string[];
+  outcome: string;
+  color: string;
+}
+
+// --- Mock Data ---
 const PROJECTS: Project[] = [
   {
     id: '1',
@@ -79,39 +195,166 @@ const PROJECTS: Project[] = [
     description: 'Full-stack wholesale management system using React, Tailwind, and Supabase. Manages inventory, orders, invoices, customers, purchases, finance, and features SMS notifications & role-based access.',
     tags: ['React', 'Tailwind', 'JavaScript', 'Supabase'],
     imageColor: 'from-purple-500 to-pink-500',
-    category: 'fullstack'
+    category: 'fullstack',
+    problem: "Shayan's Kids & Toys needed a centralized system to manage inventory, track orders & invoices, handle customer relationships, and automate communications while ensuring data security.",
+    solution: "Built a full-stack system with Supabase for backend/auth, featuring real-time inventory tracking, role-based access control (admin/manager/cashier), and SMS notifications for orders/payments.",
+    architecture: {
+      frontend: ['React', 'Tailwind CSS', 'Framer Motion'],
+      backend: ['Supabase Auth', 'Edge Functions'],
+      database: ['PostgreSQL (Supabase)', 'Supabase Storage'],
+      api: ['REST API', 'Realtime Subscriptions'],
+      deployment: ['Vercel', 'Supabase']
+    },
+    challenges: [
+      "Implementing SMS notifications with cost-effective providers",
+      "Designing a scalable RBAC system",
+      "Ensuring real-time inventory synchronization"
+    ],
+    results: "Successfully deployed, now managing 200+ products, 50+ customers, and automating 100% of invoice & SMS communications.",
+    showcase: (
+      <div className="space-y-6">
+        <h3 className="text-2xl font-bold text-purple-400">Inventory Management Demo</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-white/5 rounded-lg border border-purple-500/30">
+            <div className="text-3xl font-bold">156</div>
+            <div className="text-slate-400 text-sm">Products in Stock</div>
+          </div>
+          <div className="p-4 bg-white/5 rounded-lg border border-purple-500/30">
+            <div className="text-3xl font-bold">23</div>
+            <div className="text-slate-400 text-sm">Low Stock Items</div>
+          </div>
+          <div className="p-4 bg-white/5 rounded-lg border border-purple-500/30">
+            <div className="text-3xl font-bold">$48,900</div>
+            <div className="text-slate-400 text-sm">Inventory Value</div>
+          </div>
+        </div>
+        <div className="h-64 bg-slate-900/50 rounded-lg border border-slate-700 flex items-center justify-center text-slate-400">
+          <div className="text-center">
+            <BarChart3 className="w-12 h-12 mx-auto mb-2 opacity-50" />
+            <p>Orders Dashboard (Demo)</p>
+          </div>
+        </div>
+      </div>
+    )
   },
   {
     id: '2',
-    title: 'GreenLife Wellness Center',
-    description: 'Dynamic web application for holistic health management with secure login, appointment scheduling, client records, and therapist communication.',
-    tags: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
-    imageColor: 'from-green-500 to-emerald-500',
-    category: 'fullstack'
-  },
-  {
-    id: '3',
-    title: 'The Paws Shop',
-    description: 'Object-oriented Java system for automating pet supply transactions with cashier/manager roles, authentication, and file-based persistence.',
-    tags: ['Java', 'OOP'],
-    imageColor: 'from-orange-500 to-yellow-500',
-    category: 'fullstack'
-  },
-  {
-    id: '4',
-    title: 'Gelioya Motors — Business Management System',
-    description: 'Manual-style business management system for a spare parts shop with sales, purchases, cash flow, ledgers, and real-time financial summaries.',
-    tags: ['React', 'Tailwind', 'JavaScript'],
-    imageColor: 'from-blue-500 to-cyan-500',
-    category: 'fullstack'
-  },
-  {
-    id: '5',
-    title: 'GreenGrid',
+    title: 'GreenGrid — Waste Management System',
     description: 'Full-stack web application for energy management with interactive maps, dynamic data visualization, and server-side APIs.',
     tags: ['React', 'Next.js', 'Tailwind', 'JavaScript'],
     imageColor: 'from-teal-500 to-green-500',
-    category: 'fullstack'
+    category: 'fullstack',
+    problem: "GreenGrid required a platform to monitor waste collection, visualize routes on maps, and provide actionable insights for users.",
+    solution: "Developed using Next.js with interactive map components, data visualization dashboards, and serverless API routes for data processing.",
+    architecture: {
+      frontend: ['React', 'Next.js', 'Leaflet', 'Recharts'],
+      backend: ['Next.js API Routes'],
+      database: ['MongoDB Atlas'],
+      api: ['REST / WebSockets'],
+      deployment: ['Vercel', 'MongoDB Atlas']
+    },
+    challenges: [
+      "Optimizing map rendering for large datasets",
+      "Implementing smooth real-time data updates",
+      "Responsive design for various screen sizes"
+    ],
+    results: "Visualizes 1000+ energy nodes in real-time with 200ms map update latency and 50% faster insight generation.",
+    showcase: (
+      <div className="space-y-6">
+        <h3 className="text-2xl font-bold text-teal-400">GreenGrid Waste Management Demo</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="h-64 bg-slate-900/50 rounded-lg border border-teal-500/30 flex items-center justify-center">
+            <div className="text-center text-slate-400">
+              <Map className="w-12 h-12 mx-auto mb-2 opacity-50" />
+              <p>Interactive Collection Map</p>
+            </div>
+          </div>
+          <div className="h-64 bg-slate-900/50 rounded-lg border border-teal-500/30 flex items-center justify-center">
+            <div className="text-center text-slate-400">
+              <Route className="w-12 h-12 mx-auto mb-2 opacity-50" />
+              <p>Collection Route Optimization</p>
+            </div>
+          </div>
+        </div>
+        <div className="p-4 bg-white/5 rounded-lg border border-teal-500/30">
+          <h4 className="font-semibold mb-2 text-teal-400">Analytics Overview</h4>
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-2xl font-bold">85</div>
+              <div className="text-xs text-slate-500">Collections Today</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold">2,340</div>
+              <div className="text-xs text-slate-500">kg Recycled</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold">98%</div>
+              <div className="text-xs text-slate-500">On-time Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: '3',
+    title: 'The Paws Shop — Pet Supply POS',
+    description: 'Object-oriented Java system for automating pet supply transactions with cashier/manager roles, authentication, and file-based persistence.',
+    tags: ['Java', 'OOP'],
+    imageColor: 'from-orange-500 to-yellow-500',
+    category: 'fullstack',
+    problem: "The Paws Shop required a desktop system to manage sales, track inventory, and support different user roles with file-based persistence.",
+    solution: "Created an OOP Java application with role-based access, inventory management, and file I/O for data storage.",
+    architecture: {
+      frontend: ['Java Swing'],
+      backend: ['Java OOP'],
+      database: ['File-based (JSON/Text)'],
+      api: ['Internal Interfaces'],
+      deployment: ['Desktop Application']
+    },
+    challenges: [
+      "Designing clean OOP architecture with proper encapsulation",
+      "Handling concurrent data access",
+      "Implementing role-based permissions"
+    ],
+    results: "System processes 50+ daily transactions with 100% data integrity and easy role management.",
+    showcase: (
+      <div className="space-y-6">
+        <h3 className="text-2xl font-bold text-orange-400">Paws Shop POS Demo</h3>
+        <div className="p-4 bg-white/5 rounded-lg border border-orange-500/30 space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 bg-slate-800 rounded-lg text-center hover:bg-slate-700 cursor-pointer transition-colors">
+              <div className="text-lg font-bold">🐕 Dog Food</div>
+              <div className="text-xs text-slate-500">$24.99</div>
+            </div>
+            <div className="p-3 bg-slate-800 rounded-lg text-center hover:bg-slate-700 cursor-pointer transition-colors">
+              <div className="text-lg font-bold">🐱 Cat Food</div>
+              <div className="text-xs text-slate-500">$19.99</div>
+            </div>
+            <div className="p-3 bg-slate-800 rounded-lg text-center hover:bg-slate-700 cursor-pointer transition-colors">
+              <div className="text-lg font-bold">🦴 Chew Toy</div>
+              <div className="text-xs text-slate-500">$9.99</div>
+            </div>
+            <div className="p-3 bg-slate-800 rounded-lg text-center hover:bg-slate-700 cursor-pointer transition-colors">
+              <div className="text-lg font-bold">🎾 Ball</div>
+              <div className="text-xs text-slate-500">$4.99</div>
+            </div>
+          </div>
+        </div>
+        <div className="p-4 bg-white/5 rounded-lg border border-orange-500/30">
+          <h4 className="font-semibold mb-2 text-orange-400">Current Transaction</h4>
+          <div className="flex justify-between py-2 border-t border-b border-white/10">
+            <span>Dog Food</span><span>$24.99</span>
+          </div>
+          <div className="flex justify-between py-2 border-b border-white/10">
+            <span>Chew Toy x2</span><span>$19.98</span>
+          </div>
+          <div className="flex justify-between py-2 text-lg font-bold">
+            <span>Total</span><span>$44.97</span>
+          </div>
+        </div>
+      </div>
+    )
   }
 ];
 
@@ -143,25 +386,80 @@ const ACTIVITY_DATA = [
   { name: 'Sun', commits: 3 },
 ];
 
-// --- Components ---
+const ACHIEVEMENTS = [
+  { id: 1, title: 'Full-Stack Developer', unlocked: true, icon: Code2, description: 'Built 5+ full-stack applications' },
+  { id: 2, title: 'UI/UX Designer', unlocked: true, icon: Monitor, description: 'Delivered 10+ design projects' },
+  { id: 3, title: 'Database Architect', unlocked: true, icon: Database, description: 'Designed normalized SQL schemas' },
+  { id: 4, title: 'Mobile Developer', unlocked: false, icon: Box, description: 'Coming soon...' },
+  { id: 5, title: 'Graphic Design Pro', unlocked: true, icon: Sparkles, description: 'Mastered Adobe Creative Suite' },
+  { id: 6, title: 'Problem Solver', unlocked: true, icon: ShieldCheck, description: 'Debugged complex system issues' },
+];
 
+const TESTIMONIALS: Testimonial[] = [
+  { id: '1', client: 'Shayan\'s Kids & Toys', project: 'Wholesale Management System', rating: 5, feedback: 'Excellent work! The system has completely transformed our inventory and order management. Highly recommended!' },
+  { id: '2', client: 'GreenGrid', project: 'Waste Management Platform', rating: 5, feedback: 'Professional, timely, and exceeded expectations. The map visualization is fantastic!' },
+  { id: '3', client: 'Local Startup', project: 'Branding & Website', rating: 4, feedback: 'Great design work and attention to detail. Delivered exactly what we needed for our brand.' }
+];
+
+const CASE_STUDIES: CaseStudy[] = [
+  { 
+    id: '1', 
+    problem: 'Manual inventory management with 2-hour daily data entry', 
+    solution: 'Built a digital real-time inventory system with automatic reorder alerts', 
+    technology: ['React', 'Supabase', 'Tailwind'], 
+    outcome: 'Reduced data entry to 10 minutes daily and eliminated stockouts', 
+    color: 'from-blue-500 to-cyan-500' 
+  },
+  { 
+    id: '2', 
+    problem: 'No centralized booking system leading to double bookings', 
+    solution: 'Created an availability calendar and booking management system', 
+    technology: ['React', 'Node.js', 'PostgreSQL'], 
+    outcome: 'Zero double bookings and 30% faster booking confirmations', 
+    color: 'from-purple-500 to-pink-500' 
+  },
+  { 
+    id: '3', 
+    problem: 'Client communication scattered across emails and calls', 
+    solution: 'Implemented a client portal with SMS notifications and message history', 
+    technology: ['Next.js', 'Supabase', 'SMS API'], 
+    outcome: '40% faster response times and improved client satisfaction', 
+    color: 'from-teal-500 to-green-500' 
+  }
+];
+
+const CODE_QUALITY_METRICS = [
+  { name: 'Code Quality', value: 92, color: 'bg-blue-500' },
+  { name: 'Problem Solving', value: 95, color: 'bg-purple-500' },
+  { name: 'UI Engineering', value: 98, color: 'bg-pink-500' },
+  { name: 'Database Design', value: 85, color: 'bg-green-500' },
+  { name: 'Testing', value: 78, color: 'bg-yellow-500' },
+  { name: 'Documentation', value: 88, color: 'bg-cyan-500' }
+];
+
+const SYSTEM_HEALTH_METRICS = [
+  { name: 'Performance', value: 94, color: 'bg-blue-500' },
+  { name: 'Security', value: 90, color: 'bg-emerald-500' },
+  { name: 'Accessibility', value: 88, color: 'bg-purple-500' },
+  { name: 'Responsive Design', value: 96, color: 'bg-pink-500' },
+  { name: 'Code Quality', value: 92, color: 'bg-cyan-500' }
+];
+
+// --- Core Components ---
 const GlassPanel = ({ children, className, noPadding = false, ...props }: { children: React.ReactNode, className?: string, noPadding?: boolean } & React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn(
-    "relative overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl",
-    !noPadding && "p-6",
-    className
-  )} {...props}>
+  <div className={cn("relative overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl", !noPadding && "p-6", className)} {...props}>
     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
     {children}
   </div>
 );
 
-const GlowText = ({ children, color = "blue" }: { children: React.ReactNode, color?: 'blue' | 'green' | 'purple' | 'red' }) => {
+const GlowText = ({ children, color = "blue" }: { children: React.ReactNode, color?: 'blue' | 'green' | 'purple' | 'red' | 'cyan' }) => {
   const colors = {
     blue: "text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]",
     green: "text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]",
     purple: "text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]",
     red: "text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]",
+    cyan: "text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"
   };
   return <span className={cn("font-mono font-bold", colors[color])}>{children}</span>;
 };
@@ -170,139 +468,191 @@ const StatusLight = ({ active = true }: { active?: boolean }) => (
   <span className={cn("w-2 h-2 rounded-full animate-pulse", active ? "bg-emerald-500 shadow-[0_0_8px_#10b981]" : "bg-red-500")} />
 );
 
-// --- Modules ---
-
-const MissionControl = ({ onNavigate }: { onNavigate: (m: ModuleType) => void }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl">
-      <div className="md:col-span-2 space-y-6">
-        <GlassPanel className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-500 to-purple-600 p-1">
-              <div className="w-full h-full rounded-full bg-[#0a0a0f] flex items-center justify-center">
-                <User className="w-8 h-8 text-white" />
-              </div>
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">Welcome Back, Zaid</h2>
-              <p className="text-slate-400 text-sm">System Status: <GlowText color="green">OPERATIONAL</GlowText></p>
-            </div>
-          </div>
-          <div className="hidden md:flex flex-col items-end">
-            <span className="text-xs text-slate-500 uppercase tracking-widest">Current Focus</span>
-            <span className="text-lg font-semibold text-blue-300">Full-Stack & UI/UX</span>
-          </div>
-        </GlassPanel>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <GlassPanel className="h-full">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <Activity className="w-4 h-4" /> Activity Widget
-              </h3>
-              <StatusLight />
-            </div>
-            <div className="h-40 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={ACTIVITY_DATA}>
-                  <defs>
-                    <linearGradient id="colorCommits" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }}
-                    itemStyle={{ color: '#60a5fa' }}
-                  />
-                  <Area type="monotone" dataKey="commits" stroke="#3b82f6" fillOpacity={1} fill="url(#colorCommits)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </GlassPanel>
-
-          <GlassPanel>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" /> Achievements
-              </h3>
-            </div>
-            <ul className="space-y-3">
-              {[ 
-                { t: "Delivered 10+ Graphic Design Projects", c: "text-purple-400" },
-                { t: "Built 5+ Full-Stack Web Apps", c: "text-emerald-400" },
-                { t: "Combines Design & Dev Expertise", c: "text-blue-400" }
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm">
-                  <div className={cn("w-1.5 h-1.5 rounded-full", item.c.replace('text-', 'bg-'))} />
-                  <span className="text-slate-300">{item.t}</span>
-                </li>
-              ))}
-            </ul>
-          </GlassPanel>
-        </div>
+// --- Feature Components ---
+const StatusWidget = () => (
+  <GlassPanel className="flex flex-col gap-4">
+    <div className="flex items-center justify-between">
+      <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider flex items-center gap-2"><Wifi className="w-4 h-4" /> System Status</h3>
+      <div className="flex items-center gap-2"><StatusLight active /><span className="text-emerald-400 text-sm font-medium">Available for Freelance</span></div>
+    </div>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <span className="text-xs text-slate-500 uppercase">Currently Working On</span>
+        <p className="font-medium text-blue-300">Building Scalable Applications</p>
       </div>
-
-      <div className="space-y-6">
-        <GlassPanel className="h-full flex flex-col">
-          <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <Cpu className="w-4 h-4" /> Active Tools
-          </h3>
-          <div className="flex-1 grid grid-cols-2 gap-3 content-start">
-             {['React', 'Tailwind', 'Photoshop', 'Illustrator', 'Java', 'Git'].map((tool) => (
-               <button 
-                 key={tool}
-                 onClick={() => onNavigate('skills')}
-                 className="group relative h-20 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 transition-all flex flex-col items-center justify-center gap-2"
-               >
-                 <div className="w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
-                   <Code size={18} />
-                 </div>
-                 <span className="text-xs font-medium">{tool}</span>
-               </button>
-             ))}
-          </div>
-        </GlassPanel>
-
-        <GlassPanel 
-          className="cursor-pointer hover:border-blue-500/30 transition-all"
-          onClick={() => onNavigate('projects')}
-        >
-           <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-slate-500 mb-1">Quick Access</p>
-                <h4 className="text-lg font-bold">View Projects</h4>
-              </div>
-              <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400">
-                <Layers />
-              </div>
-           </div>
-        </GlassPanel>
+      <div className="space-y-2">
+        <span className="text-xs text-slate-500 uppercase">Primary Focus</span>
+        <p className="font-medium text-purple-300">Full-Stack Software Engineering</p>
       </div>
     </div>
+  </GlassPanel>
+);
+
+const GitHubActivity = () => (
+  <GlassPanel className="space-y-4">
+    <div className="flex items-center justify-between">
+      <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider flex items-center gap-2"><Server className="w-4 h-4" /> GitHub Activity</h3>
+      <a href="https://github.com/Mohomed-Zaid" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1">View <ArrowUpRight className="w-3 h-3" /></a>
+    </div>
+    <div className="space-y-3">
+      {[
+        { t: 'Authentication system improved', time: '2h ago' },
+        { t: 'Database architecture updated', time: '1d ago' },
+        { t: 'UI components created', time: '2d ago' },
+        { t: 'Project deployed to Vercel', time: '3d ago' }
+      ].map((item, i) => (
+        <div key={i} className="flex items-start gap-3">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5" />
+          <div>
+            <p className="text-sm text-slate-200">{item.t}</p>
+            <p className="text-xs text-slate-500">{item.time}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </GlassPanel>
+);
+
+const ZaidAIAssistant = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([{ id: '1', role: 'assistant', content: "Hello! I'm Zaid AI. Ask me about projects, skills, or experience!" }]);
+  const [input, setInput] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages]);
+
+  const getResponse = (query: string) => {
+    const q = query.toLowerCase();
+    if (q.includes('project')) return "I've built 5+ full-stack projects including Shayan's Kids wholesale management system, GreenGrid waste management, The Paws Shop (Java OOP), Gelioya Motors accounting system, and GreenGrid energy platform!";
+    if (q.includes('skill')) return "Proficient in React, Tailwind, JavaScript, Java (OOP), PHP, MySQL, and graphic design tools (Photoshop/Illustrator/Canva).";
+    if (q.includes('experience')) return "1+ year freelance graphic design experience, and current role as Software Engineer at Shayan's Kids & Toys.";
+    if (q.includes('contact')) return "You can reach Zaid via email at Zaidn2848@gmail.com, phone at +94777531318, or on LinkedIn and GitHub!";
+    if (q.includes('greengrid')) return "GreenGrid is an energy/waste management system with interactive maps and real-time visualizations built with Next.js and Recharts!";
+    if (q.includes('shayan')) return "Shayan's Kids wholesale management system uses React + Supabase with SMS notifications and RBAC!";
+    return "I'm here to help! Ask about projects, skills, experience, or contact info!";
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: input }]);
+    const q = input;
+    setInput('');
+    setTimeout(() => setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'assistant', content: getResponse(q) }]), 600);
+  };
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:scale-110 transition-transform flex items-center justify-center">
+        <Bot className="w-7 h-7 text-white" />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="fixed bottom-24 right-6 z-50 w-full max-w-md">
+            <GlassPanel className="p-0 h-[500px] flex flex-col">
+              <div className="p-4 border-b border-white/10 flex items-center justify-between bg-slate-900/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center"><Bot className="w-5 h-5 text-white" /></div>
+                  <div><h3 className="font-bold">Zaid AI</h3><p className="text-xs text-emerald-400 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400" /> Online</p></div>
+                </div>
+                <button onClick={() => setIsOpen(false)}><X className="w-5 h-5 text-slate-400" /></button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.map(msg => (
+                  <div key={msg.id} className={cn("flex", msg.role === 'user' ? "justify-end" : "justify-start")}>
+                    <div className={cn("max-w-[80%] p-3 rounded-lg", msg.role === 'user' ? "bg-blue-600 text-white rounded-tr-none" : "bg-white/10 text-slate-200 rounded-tl-none")}>
+                      <p className="text-sm">{msg.content}</p>
+                    </div>
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+              <form onSubmit={handleSubmit} className="p-4 border-b border-white/10 flex gap-2">
+                <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask me anything..." className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
+                <button type="submit" className="p-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"><Send className="w-4 h-4" /></button>
+              </form>
+            </GlassPanel>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
-const ProjectModule = () => {
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
+// --- Modules ---
+const MissionControl = ({ onNavigate }: { onNavigate: (m: ModuleType) => void }) => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl">
+    <div className="md:col-span-2 space-y-6">
+      <GlassPanel className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-500 to-purple-600 p-1"><div className="w-full h-full rounded-full bg-[#0a0a0f] flex items-center justify-center"><User className="w-8 h-8 text-white" /></div></div>
+          <div><h2 className="text-2xl font-bold tracking-tight">Welcome Back, Zaid</h2><p className="text-slate-400 text-sm">System Status: <GlowText color="green">OPERATIONAL</GlowText></p></div>
+        </div>
+      </GlassPanel>
+      <StatusWidget />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <GlassPanel className="h-full">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4" /> Activity Widget</h3><StatusLight />
+          </div>
+          <div className="h-40 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={ACTIVITY_DATA}>
+                <defs><linearGradient id="colorCommits" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/><stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/></linearGradient></defs>
+                <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }} itemStyle={{ color: '#60a5fa' }} />
+                <Area type="monotone" dataKey="commits" stroke="#3b82f6" fillOpacity={1} fill="url(#colorCommits)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </GlassPanel>
+        <GitHubActivity />
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <button onClick={() => onNavigate('terminal')} className="p-4 GlassPanel hover:border-cyan-500/50 transition-all text-center"><TerminalIcon className="w-8 h-8 mx-auto mb-2 text-cyan-400" /><span className="text-sm font-medium">Terminal</span></button>
+        <button onClick={() => onNavigate('achievements')} className="p-4 GlassPanel hover:border-amber-500/50 transition-all text-center"><Trophy className="w-8 h-8 mx-auto mb-2 text-amber-400" /><span className="text-sm font-medium">Achievements</span></button>
+        <button onClick={() => onNavigate('resume')} className="p-4 GlassPanel hover:border-emerald-500/50 transition-all text-center"><FileText className="w-8 h-8 mx-auto mb-2 text-emerald-400" /><span className="text-sm font-medium">Resume</span></button>
+        <button onClick={() => onNavigate('demo')} className="p-4 GlassPanel hover:border-purple-500/50 transition-all text-center"><Play className="w-8 h-8 mx-auto mb-2 text-purple-400" /><span className="text-sm font-medium">Demo</span></button>
+      </div>
+    </div>
+    <div className="space-y-6">
+      <GlassPanel className="h-full flex flex-col">
+        <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"><Cpu className="w-4 h-4" /> Active Tools</h3>
+        <div className="flex-1 grid grid-cols-2 gap-3 content-start">
+           {['React', 'Tailwind', 'Photoshop', 'Illustrator', 'Java', 'Git'].map((tool) => (
+             <button key={tool} onClick={() => onNavigate('skills')} className="group relative h-20 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 transition-all flex flex-col items-center justify-center gap-2">
+               <div className="w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform"><Code2 size={18} /></div>
+               <span className="text-xs font-medium">{tool}</span>
+             </button>
+           ))}
+        </div>
+      </GlassPanel>
+      <div className="grid grid-cols-1 gap-4">
+        <button onClick={() => onNavigate('showcase')} className="p-4 GlassPanel hover:border-purple-500/50 transition-all text-left">
+          <div className="flex items-center justify-between"><div><p className="text-xs text-slate-500 mb-1">Live Demos</p><h4 className="text-lg font-bold">Product Showcase</h4></div><div className="p-3 rounded-lg bg-purple-500/10 text-purple-400"><Play /></div></div>
+        </button>
+        <button onClick={() => onNavigate('freelance')} className="p-4 GlassPanel hover:border-emerald-500/50 transition-all text-left">
+          <div className="flex items-center justify-between"><div><p className="text-xs text-slate-500 mb-1">Work With Me</p><h4 className="text-lg font-bold">Start a Project</h4></div><div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400"><DollarSign /></div></div>
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
+const ProjectModule = ({ onNavigate }: { onNavigate: (m: ModuleType, projectId?: string) => void }) => {
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
   return (
     <div className="w-full max-w-6xl">
       <div className="mb-6 flex items-center justify-between">
-        <div>
+        <div className="flex items-center gap-3">
           <h2 className="text-3xl font-bold">Project Modules</h2>
-          <p className="text-slate-400">Active repository instances detected.</p>
         </div>
+        <button onClick={() => onNavigate('architecture')} className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 text-sm">
+          <Workflow className="w-4 h-4" /> System Architecture
+        </button>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {PROJECTS.map((project) => (
-          <motion.div
-            layoutId={`project-${project.id}`}
-            key={project.id}
-            onClick={() => setActiveProject(project)}
-            className="group cursor-pointer"
-          >
+          <motion.div layoutId={`project-${project.id}`} key={project.id} className="group cursor-pointer" onClick={() => setActiveProject(project)}>
             <GlassPanel className="h-full hover:border-white/20 transition-all">
               <div className={cn("h-32 rounded-lg bg-gradient-to-br mb-4 group-hover:scale-[1.02] transition-transform", project.imageColor)} />
               <div className="flex justify-between items-start mb-2">
@@ -310,22 +660,19 @@ const ProjectModule = () => {
                 <span className="px-2 py-0.5 text-[10px] rounded-full bg-white/10 uppercase tracking-wider">{project.category}</span>
               </div>
               <p className="text-sm text-slate-400 mb-4 line-clamp-2">{project.description}</p>
-              <div className="flex gap-2 flex-wrap">
-                {project.tags.map(tag => (
-                  <span key={tag} className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">{tag}</span>
-                ))}
+              <div className="flex gap-2 flex-wrap mb-4">
+                {project.tags.map(tag => <span key={tag} className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">{tag}</span>)}
               </div>
+              <button onClick={(e) => { e.stopPropagation(); onNavigate('showcase', project.id); }} className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-sm font-medium hover:opacity-90 flex items-center justify-center gap-2">
+                <Play className="w-4 h-4" /> Launch Demo
+              </button>
             </GlassPanel>
           </motion.div>
         ))}
       </div>
-
       <AnimatePresence>
         {activeProject && (
-          <ProjectWindow 
-            project={activeProject} 
-            onClose={() => setActiveProject(null)} 
-          />
+          <ProjectWindow project={activeProject} onClose={() => setActiveProject(null)} />
         )}
       </AnimatePresence>
     </div>
@@ -333,19 +680,9 @@ const ProjectModule = () => {
 };
 
 const ProjectWindow = ({ project, onClose }: { project: Project, onClose: () => void }) => (
-  <motion.div 
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-    onClick={onClose}
-  >
-    <motion.div 
-      layoutId={`project-${project.id}`}
-      className="w-full max-w-2xl bg-[#0f172a] border border-slate-700 rounded-xl overflow-hidden shadow-2xl"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-900/50 border-b border-slate-700">
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+    <motion.div layoutId={`project-${project.id}`} className="w-full max-w-4xl bg-[#0f172a] border border-slate-700 rounded-xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center justify-between px-4 py-3 bg-slate-900/50 border-b border-slate-700 sticky top-0 z-10">
         <div className="flex gap-2">
           <div className="w-3 h-3 rounded-full bg-red-500" />
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
@@ -354,29 +691,28 @@ const ProjectWindow = ({ project, onClose }: { project: Project, onClose: () => 
         <span className="text-xs font-mono text-slate-400">{project.title.toLowerCase().replace(' ', '_')}.exe</span>
         <button onClick={onClose}><X className="w-4 h-4 text-slate-400" /></button>
       </div>
-      
-      <div className="p-6">
-        <div className={cn("h-40 rounded-lg bg-gradient-to-br mb-6", project.imageColor)} />
-        <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
-        <p className="text-slate-400 mb-6">{project.description}</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <button className="flex items-center justify-center gap-2 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors font-medium">
-            <Globe size={18} /> Live Demo
-          </button>
-          <button className="flex items-center justify-center gap-2 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors font-medium border border-slate-700">
-            <Github size={18} /> View Code
-          </button>
-          <button className="flex items-center justify-center gap-2 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors font-medium border border-slate-700">
-            <Layers size={18} /> Architecture
-          </button>
+      <div className="p-6 space-y-8">
+        <div className={cn("h-48 rounded-lg bg-gradient-to-br", project.imageColor)} />
+        <div><h2 className="text-3xl font-bold mb-2">{project.title}</h2><p className="text-slate-400">{project.description}</p></div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GlassPanel><h3 className="font-bold flex items-center gap-2 mb-3"><ShieldAlert className="w-5 h-5 text-red-400" /> Problem</h3><p className="text-sm text-slate-300">{project.problem}</p></GlassPanel>
+          <GlassPanel><h3 className="font-bold flex items-center gap-2 mb-3"><CheckCircle2 className="w-5 h-5 text-green-400" /> Solution</h3><p className="text-sm text-slate-300">{project.solution}</p></GlassPanel>
         </div>
-
-        <div className="h-48 bg-slate-900/50 rounded-lg border border-slate-800 flex items-center justify-center">
-           <div className="text-center text-slate-500">
-             <MapPin className="w-10 h-10 mx-auto mb-2 opacity-50" />
-             <p>Interactive Demo UI Placeholder</p>
-           </div>
+        <GlassPanel><h3 className="font-bold flex items-center gap-2 mb-4"><Workflow className="w-5 h-5 text-blue-400" /> Architecture</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(project.architecture).map(([layer, items], i) => (
+              <div key={layer} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                <h4 className="font-semibold text-sm text-slate-300 mb-2 capitalize">{layer}</h4>
+                <div className="space-y-1">
+                  {items.map((item, j) => <motion.div key={j} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: j * 0.1 }} className="text-xs text-slate-400 flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" />{item}</motion.div>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassPanel>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GlassPanel><h3 className="font-bold flex items-center gap-2 mb-3"><Zap className="w-5 h-5 text-amber-400" /> Challenges</h3><ul className="space-y-2">{project.challenges.map((c, i) => <li key={i} className="text-sm text-slate-300 flex items-start gap-2"><span className="text-amber-400 mt-1">•</span>{c}</li>)}</ul></GlassPanel>
+          <GlassPanel><h3 className="font-bold flex items-center gap-2 mb-3"><Trophy className="w-5 h-5 text-emerald-400" /> Results</h3><p className="text-sm text-slate-300">{project.results}</p></GlassPanel>
         </div>
       </div>
     </motion.div>
@@ -385,115 +721,37 @@ const ProjectWindow = ({ project, onClose }: { project: Project, onClose: () => 
 
 const SkillMatrix = () => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>('design');
-
   const categories = [
-    {
-      id: 'design',
-      title: 'Design & Creative',
-      skills: [
-        { name: 'Adobe Photoshop', level: 98 },
-        { name: 'Adobe Illustrator', level: 95 },
-        { name: 'Canva', level: 92 },
-        { name: 'UI/UX Design Principles', level: 90 },
-      ]
-    },
-    {
-      id: 'frontend',
-      title: 'Frontend Systems',
-      skills: [
-        { name: 'React', level: 88 },
-        { name: 'Tailwind CSS', level: 92 },
-        { name: 'HTML / CSS', level: 95 },
-        { name: 'JavaScript', level: 80 },
-      ]
-    },
-    {
-      id: 'backend',
-      title: 'Backend & Database',
-      skills: [
-        { name: 'Java (OOP)', level: 70 },
-        { name: 'PHP', level: 75 },
-        { name: 'MySQL', level: 80 },
-        { name: 'Supabase', level: 85 },
-      ]
-    }
+    { id: 'design', title: 'Design & Creative', skills: [{ name: 'Adobe Photoshop', level: 98 }, { name: 'Adobe Illustrator', level: 95 }, { name: 'Canva', level: 92 }, { name: 'UI/UX Design Principles', level: 90 }] },
+    { id: 'frontend', title: 'Frontend Systems', skills: [{ name: 'React', level: 88 }, { name: 'Tailwind CSS', level: 92 }, { name: 'HTML / CSS', level: 95 }, { name: 'JavaScript', level: 80 }] },
+    { id: 'backend', title: 'Backend & Database', skills: [{ name: 'Java (OOP)', level: 70 }, { name: 'PHP', level: 75 }, { name: 'MySQL', level: 80 }, { name: 'Supabase', level: 85 }] }
   ];
-
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div>
         <h2 className="text-3xl font-bold mb-2">Skill Diagnostics</h2>
         <p className="text-slate-400 mb-6">Real-time proficiency analysis.</p>
-        
         <div className="space-y-4">
           {categories.map((cat) => (
-            <GlassPanel 
-              key={cat.id} 
-              className={cn(
-                "cursor-pointer transition-all",
-                expandedCategory === cat.id ? "border-blue-500/50 bg-blue-500/5" : ""
-              )}
-              onClick={() => setExpandedCategory(expandedCategory === cat.id ? null : cat.id)}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-lg">{cat.title}</h3>
-                <ChevronRight className={cn("transition-transform", expandedCategory === cat.id ? "rotate-90" : "")} />
-              </div>
-              <AnimatePresence>
-                {expandedCategory === cat.id && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="space-y-4">
-                      {cat.skills.map((skill) => (
-                        <div key={skill.name}>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-slate-300">{skill.name}</span>
-                            <span className="text-blue-400 font-mono">{skill.level}%</span>
-                          </div>
-                          <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${skill.level}%` }}
-                              transition={{ delay: 0.2, duration: 0.8 }}
-                              className="h-full bg-gradient-to-r from-blue-600 to-cyan-400"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <GlassPanel key={cat.id} className={cn("cursor-pointer transition-all", expandedCategory === cat.id ? "border-blue-500/50 bg-blue-500/5" : "")} onClick={() => setExpandedCategory(expandedCategory === cat.id ? null : cat.id)}>
+              <div className="flex items-center justify-between mb-4"><h3 className="font-bold text-lg">{cat.title}</h3><ChevronRight className={cn("transition-transform", expandedCategory === cat.id ? "rotate-90" : "")} /></div>
+              <AnimatePresence>{expandedCategory === cat.id && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden"><div className="space-y-4">{cat.skills.map((skill) => <div key={skill.name}><div className="flex justify-between text-xs mb-1"><span className="text-slate-300">{skill.name}</span><span className="text-blue-400 font-mono">{skill.level}%</span></div><div className="h-2 bg-slate-800 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${skill.level}%` }} transition={{ delay: 0.2, duration: 0.8 }} className="h-full bg-gradient-to-r from-blue-600 to-cyan-400" /></div></div>)}</div></motion.div>}</AnimatePresence>
             </GlassPanel>
           ))}
         </div>
       </div>
-
       <div className="flex flex-col justify-center">
         <GlassPanel className="h-full min-h-[400px] flex items-center justify-center">
           <div className="w-full h-80">
-             <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={SKILL_DATA}>
-                  <PolarGrid stroke="#334155" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar
-                    name="Skills"
-                    dataKey="A"
-                    stroke="#3b82f6"
-                    strokeWidth={2}
-                    fill="#3b82f6"
-                    fillOpacity={0.3}
-                  />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }}
-                  />
-                </RadarChart>
-             </ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart cx="50%" cy="50%" outerRadius="80%" data={SKILL_DATA}>
+                <PolarGrid stroke="#334155" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                <Radar name="Skills" dataKey="A" stroke="#3b82f6" strokeWidth={2} fill="#3b82f6" fillOpacity={0.3} />
+                <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }} />
+              </RadarChart>
+            </ResponsiveContainer>
           </div>
         </GlassPanel>
       </div>
@@ -503,308 +761,610 @@ const SkillMatrix = () => {
 
 const SystemLog = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, []);
-
+  useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, []);
   return (
     <div className="w-full max-w-4xl">
-      <div className="mb-6 flex items-center gap-3">
-        <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-        <h2 className="text-3xl font-bold font-mono">SYSTEM.LOG</h2>
-      </div>
-
+      <div className="mb-6 flex items-center gap-3"><div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" /><h2 className="text-3xl font-bold font-mono">System Evolution Log</h2></div>
       <GlassPanel className="p-0 overflow-hidden">
-        <div className="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center gap-2">
-          <TerminalIcon className="w-4 h-4 text-slate-500" />
-          <span className="text-xs text-slate-500 font-mono">journey.log --view --follow</span>
-        </div>
-        <div 
-          ref={scrollRef}
-          className="p-6 font-mono text-sm space-y-6 max-h-[600px] overflow-y-auto bg-black/40"
-        >
+        <div className="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center gap-2"><TerminalIcon className="w-4 h-4 text-slate-500" /><span className="text-xs text-slate-500 font-mono">journey.log --view --follow</span></div>
+        <div ref={scrollRef} className="p-6 font-mono text-sm space-y-6 max-h-[600px] overflow-y-auto bg-black/40">
           {LOGS.map((log, index) => (
-            <motion.div 
-              key={log.id}
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: index * 0.2 }}
-              className="flex gap-4"
-            >
+            <motion.div key={log.id} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: index * 0.2 }} className="flex gap-4">
               <div className="text-slate-600 select-none w-24 shrink-0">[{log.date}]</div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={cn(
-                    "uppercase text-xs font-bold tracking-widest",
-                    log.type === 'boot' ? 'text-cyan-400' :
-                    log.type === 'install' ? 'text-blue-400' :
-                    log.type === 'upgrade' ? 'text-emerald-400' :
-                    log.type === 'error' ? 'text-red-400' : 'text-slate-400'
-                  )}>
-                    {log.type}:
-                  </span>
+                  <span className={cn("uppercase text-xs font-bold tracking-widest", log.type === 'boot' ? 'text-cyan-400' : log.type === 'install' ? 'text-blue-400' : log.type === 'upgrade' ? 'text-emerald-400' : log.type === 'error' ? 'text-red-400' : 'text-slate-400')}>{log.type}:</span>
                   <span className="text-white font-bold">{log.title}</span>
                 </div>
                 <p className="text-slate-400">{log.details}</p>
               </div>
             </motion.div>
           ))}
-          
-          <div className="flex items-center gap-2 text-emerald-500">
-            <span className="animate-pulse">_</span>
-            <span className="text-xs opacity-70">Awaiting next entry...</span>
-          </div>
+          <div className="flex items-center gap-2 text-emerald-500"><span className="animate-pulse">_</span><span className="text-xs opacity-70">Awaiting next entry...</span></div>
         </div>
       </GlassPanel>
     </div>
   );
 };
 
-const ContactPanel = () => (
-  <div className="w-full max-w-2xl">
-    <GlassPanel>
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2">Initialize Connection</h2>
-        <p className="text-slate-400">Ready to collaborate? Let's establish a secure link.</p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="mailto:Zaidn2848@gmail.com" className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all group">
-          <div className="p-3 rounded-full bg-blue-500/10 text-blue-400 group-hover:scale-110 transition-transform">
-            <MessageSquare />
-          </div>
-          <div className="text-left">
-            <p className="text-xs text-slate-500 uppercase">Email</p>
-            <p className="font-medium">Zaidn2848@gmail.com</p>
-          </div>
-        </a>
+const TerminalModule = () => {
+  const [history, setHistory] = useState<string[]>(['Welcome to LifeOS Terminal', 'Type "help" for commands']);
+  const [input, setInput] = useState('');
+  const endRef = useRef<HTMLDivElement>(null);
+  useEffect(() => endRef.current?.scrollIntoView({ behavior: 'smooth' }), [history]);
 
-        <a href="tel:+94777531318" className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-green-500/50 hover:bg-green-500/5 transition-all group">
-          <div className="p-3 rounded-full bg-green-500/10 text-green-400 group-hover:scale-110 transition-transform">
-            <Globe />
-          </div>
-          <div className="text-left">
-            <p className="text-xs text-slate-500 uppercase">Phone</p>
-            <p className="font-medium">+94 777 531 318</p>
-          </div>
-        </a>
+  const executeCommand = (cmd: string) => {
+    const c = cmd.toLowerCase().trim();
+    let output: string[] = [];
+    if (c === 'help') output = ['Available commands:', 'about, projects, skills, experience, contact, clear, matrix, coffee, sudo, architecture, freelance, testimonials, devops'];
+    else if (c === 'about') output = ['Mohomed Zaid Nasheem', 'Software Engineering Student', 'Full-Stack Developer & Graphic Designer'];
+    else if (c === 'projects') output = ['Projects:', '1. Shayan\'s Kids - Wholesale Management', '2. GreenGrid - Waste Management', '3. The Paws Shop - Java POS', '4. Gelioya Motors - Accounting'];
+    else if (c === 'skills') output = ['Skills:', 'React, Tailwind, JavaScript, Java, PHP, MySQL, Photoshop, Illustrator'];
+    else if (c === 'experience') output = ['Experience:', 'Freelance Graphic Designer (2024-2025)', 'Junior Developer (2025-2026)', 'Software Engineer (2026-Present)'];
+    else if (c === 'contact') output = ['Contact:', 'Email: Zaidn2848@gmail.com', 'Phone: +94777531318'];
+    else if (c === 'clear') { setHistory([]); return; }
+    else if (c === 'matrix') output = ['🔢 Matrix mode activated!', 'Wake up, Neo...'];
+    else if (c === 'coffee') output = ['☕ Fuel restored!', 'Time to code!'];
+    else if (c === 'sudo') output = ['⚠️  Developer mode activated!', 'You found the Easter Egg! 🎉'];
+    else output = [`Command not found: ${c}`];
+    setHistory(prev => [...prev, `> ${cmd}`, ...output]);
+  };
 
-        <a href="https://github.com/Mohomed-Zaid" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/5 transition-all group">
-          <div className="p-3 rounded-full bg-purple-500/10 text-purple-400 group-hover:scale-110 transition-transform">
-            <Github />
-          </div>
-          <div className="text-left">
-            <p className="text-xs text-slate-500 uppercase">GitHub</p>
-            <p className="font-medium">Mohomed-Zaid</p>
-          </div>
-        </a>
-
-        <a href="https://www.linkedin.com/in/mohomed-zaid-5a81b4377" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-blue-600/50 hover:bg-blue-600/5 transition-all group">
-          <div className="p-3 rounded-full bg-blue-600/10 text-blue-500 group-hover:scale-110 transition-transform">
-            <User />
-          </div>
-          <div className="text-left">
-            <p className="text-xs text-slate-500 uppercase">LinkedIn</p>
-            <p className="font-medium">Mohomed Zaid Nasheem</p>
-          </div>
-        </a>
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); executeCommand(input); setInput(''); };
+  return (
+    <GlassPanel className="p-0 max-w-4xl w-full h-[600px] flex flex-col font-mono">
+      <div className="bg-slate-900/80 p-3 border-b border-white/10 flex items-center justify-between"><div className="flex items-center gap-2 text-slate-400 text-sm"><TerminalIcon className="w-4 h-4" /><span>lifeos@portfolio:~$</span></div></div>
+      <div className="flex-1 bg-black/60 p-4 overflow-y-auto space-y-2 text-sm text-slate-300">
+        {history.map((line, i) => <div key={i} className={line.startsWith('>') ? 'text-blue-300' : ''}>{line}</div>)}
+        <form onSubmit={handleSubmit} className="flex items-center gap-2"><span className="text-emerald-400">$</span><input value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 bg-transparent outline-none" autoFocus /></form>
+        <div ref={endRef} />
       </div>
     </GlassPanel>
+  );
+};
+
+const AchievementsModule = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><Trophy className="w-8 h-8 text-amber-400" /> Achievements</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {ACHIEVEMENTS.map((a) => (
+        <motion.div key={a.id} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: a.id * 0.1 }}>
+          <GlassPanel className={cn("h-full transition-all", a.unlocked ? "border-amber-500/30" : "opacity-60")}>
+            <div className="flex items-start gap-4">
+              <div className={cn("w-14 h-14 rounded-full flex items-center justify-center", a.unlocked ? "bg-amber-500/20 text-amber-400" : "bg-slate-700 text-slate-500")}><a.icon className="w-7 h-7" /></div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg">{a.title}</h3>
+                <p className="text-sm text-slate-400 mt-1">{a.description}</p>
+                {a.unlocked ? <span className="inline-block mt-2 text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400">Unlocked</span> : <span className="inline-block mt-2 text-xs px-2 py-1 rounded-full bg-slate-800 text-slate-500">Locked</span>}
+              </div>
+            </div>
+          </GlassPanel>
+        </motion.div>
+      ))}
+    </div>
   </div>
 );
 
-// --- Command Bar ---
+const ResumeBuilder = () => {
+  const [type, setType] = useState<'fullstack' | 'developer' | 'designer'>('fullstack');
+  
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/Mohomed-Zaid-CV.pdf';
+    link.download = 'Mohomed-Zaid-CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+  return (
+    <div className="w-full max-w-6xl">
+      <h2 className="text-3xl font-bold mb-6">Resume Builder</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="space-y-4">
+          <h3 className="text-sm text-slate-400 uppercase tracking-wider">Select Type</h3>
+          {[{ id: 'fullstack', label: 'Full Stack Developer', icon: Code2 }, { id: 'developer', label: 'Software Developer', icon: Cpu }, { id: 'designer', label: 'UI/UX Designer', icon: Monitor }].map((opt) => (
+            <button key={opt.id} onClick={() => setType(opt.id as any)} className={cn("w-full GlassPanel flex items-center gap-3 text-left transition-all", type === opt.id ? "border-blue-500/50 bg-blue-500/5" : "")}>
+              <div className="p-2 rounded-lg bg-white/5"><opt.icon className="w-5 h-5" /></div><span className="font-medium">{opt.label}</span>
+            </button>
+          ))}
+          <button onClick={handleDownload} className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+            <Download className="w-4 h-4" /> Download Resume
+          </button>
+        </div>
+        <div className="lg:col-span-2">
+          <GlassPanel className="min-h-[500px] bg-white/[0.03]">
+            <div className="text-center p-8 border-b border-white/10">
+              <h2 className="text-3xl font-bold">Mohomed Zaid Nasheem</h2>
+              <p className="text-blue-400 mt-1">{type === 'designer' ? 'UI/UX Designer & Graphic Designer' : type === 'developer' ? 'Software Engineer' : 'Full Stack Developer'}</p>
+              <p className="text-sm text-slate-400 mt-2">Zaidn2848@gmail.com | +94777531318</p>
+            </div>
+            <div className="p-8 space-y-8">
+              <div><h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Profile</h3><p className="text-slate-300 text-sm">Multidisciplinary creative professional with experience in {type === 'designer' ? 'graphic design and UI/UX' : 'software development'}, currently pursuing HND in Software Engineering at ICBT Campus.</p></div>
+              <div><h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Experience</h3><div className="space-y-4">
+                <div><h4 className="font-semibold">Software Engineer</h4><p className="text-blue-400 text-sm">Shayan's Kids & Toys • 2026-Present</p><p className="text-slate-400 text-sm mt-1">Built full-stack wholesale management system</p></div>
+                <div><h4 className="font-semibold">Junior Developer</h4><p className="text-blue-400 text-sm">Cell Revolution • 2025-2026</p><p className="text-slate-400 text-sm mt-1">Web app development & data management</p></div>
+              </div></div>
+              <div><h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Skills</h3><div className="flex flex-wrap gap-2">{(type === 'designer' ? ['Photoshop', 'Illustrator', 'Canva', 'UI/UX', 'Branding'] : ['React', 'Tailwind', 'JavaScript', 'Java', 'MySQL', 'PHP', 'Git']).map(s => <span key={s} className="px-3 py-1 bg-slate-800 rounded-full text-xs">{s}</span>)}</div></div>
+            </div>
+          </GlassPanel>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-const CommandBar = ({ 
-  isOpen, 
-  onClose, 
-  onCommand 
-}: { 
-  isOpen: boolean, 
-  onClose: () => void, 
-  onCommand: (cmd: ModuleType) => void 
-}) => {
+const LiveProductShowcase = ({ activeProjectId }: { activeProjectId?: string }) => {
+  const project = PROJECTS.find(p => p.id === activeProjectId) || PROJECTS[0];
+  return (
+    <div className="w-full max-w-6xl">
+      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><Play className="w-8 h-8 text-purple-400" /> Live Product Showcase</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 space-y-4">
+          {PROJECTS.map(p => (
+            <button key={p.id} onClick={() => {}} className={cn("w-full GlassPanel text-left transition-all", project.id === p.id ? "border-purple-500/50 bg-purple-500/5" : "")}>
+              <h4 className="font-bold">{p.title}</h4><p className="text-sm text-slate-400 mt-1 line-clamp-2">{p.description}</p>
+            </button>
+          ))}
+        </div>
+        <div className="lg:col-span-2">
+          <GlassPanel className="min-h-[500px]">{project.showcase}</GlassPanel>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SystemArchitectureExplorer = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><Workflow className="w-8 h-8 text-blue-400" /> System Architecture Explorer</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        { name: 'Frontend', icon: Monitor, color: 'from-blue-500 to-cyan-500', description: 'React, Next.js, Tailwind CSS - Responsive user interfaces', features: ['Reusable Components', 'State Management', 'Responsive Design'] },
+        { name: 'API Layer', icon: Server, color: 'from-purple-500 to-pink-500', description: 'RESTful APIs, Edge Functions, WebSockets', features: ['Authentication', 'Business Logic', 'Real-time Updates'] },
+        { name: 'Backend', icon: Cpu, color: 'from-green-500 to-emerald-500', description: 'Server-side processing, business rules', features: ['Data Validation', 'Security', 'Scalability'] },
+        { name: 'Database', icon: Database, color: 'from-orange-500 to-yellow-500', description: 'PostgreSQL, MongoDB, File Storage', features: ['Data Integrity', 'Indexing', 'Backups'] },
+        { name: 'Deployment', icon: Rocket, color: 'from-red-500 to-pink-500', description: 'CI/CD, Hosting, Monitoring', features: ['Vercel', 'Supabase', 'Analytics'] },
+        { name: 'User', icon: User, color: 'from-indigo-500 to-blue-500', description: 'End user interaction & experience', features: ['UI/UX', 'Accessibility', 'Performance'] }
+      ].map((layer, i) => (
+        <motion.div key={layer.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+          <GlassPanel className="h-full">
+            <div className="flex items-center gap-3 mb-4">
+              <div className={cn("p-3 rounded-lg bg-gradient-to-br", layer.color)}><layer.icon className="w-6 h-6 text-white" /></div>
+              <h3 className="font-bold text-xl">{layer.name}</h3>
+            </div>
+            <p className="text-sm text-slate-400 mb-4">{layer.description}</p>
+            <ul className="space-y-2">
+              {layer.features.map(f => <li key={f} className="flex items-center gap-2 text-sm"><CheckCircle2 className="w-4 h-4 text-emerald-400" /><span className="text-slate-300">{f}</span></li>)}
+            </ul>
+          </GlassPanel>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
+const CodeQualityDashboard = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><Code2 className="w-8 h-8 text-cyan-400" /> Code Quality Dashboard</h2>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="space-y-6">
+        {CODE_QUALITY_METRICS.map((metric, i) => (
+          <motion.div key={metric.name} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}>
+            <GlassPanel>
+              <div className="flex justify-between mb-2">
+                <span className="font-medium">{metric.name}</span><span className="text-cyan-400 font-bold">{metric.value}%</span>
+              </div>
+              <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
+                <motion.div initial={{ width: 0 }} animate={{ width: `${metric.value}%` }} transition={{ delay: i * 0.1 + 0.3, duration: 0.8 }} className={cn("h-full", metric.color)} />
+              </div>
+            </GlassPanel>
+          </motion.div>
+        ))}
+      </div>
+      <GlassPanel>
+        <h3 className="font-bold mb-4 text-cyan-400">Developer Practices</h3>
+        <div className="space-y-4">
+          {[
+            { title: 'Git Workflow', icon: GitBranch, items: ['Feature branches', 'Pull requests', 'Conventional commits'] },
+            { title: 'Clean Code', icon: FileCheck, items: ['DRY principles', 'Meaningful names', 'SOLID patterns'] },
+            { title: 'Testing Approach', icon: FileSearch, items: ['Unit tests', 'Integration tests', 'End-to-end tests'] }
+          ].map((section, i) => (
+            <div key={i}>
+              <div className="flex items-center gap-2 mb-2"><section.icon className="w-5 h-5 text-cyan-400" /><h4 className="font-semibold">{section.title}</h4></div>
+              <ul className="space-y-1 ml-7">{section.items.map(item => <li key={item} className="text-sm text-slate-300 flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500" />{item}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </GlassPanel>
+    </div>
+  </div>
+);
+
+const FreelanceProjectRequest = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ client: '', type: '', budget: '', timeline: '', requirements: '' });
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
+  if (submitted) {
+    return (
+      <div className="w-full max-w-2xl">
+        <GlassPanel className="text-center py-12">
+          <CheckCircle2 className="w-20 h-20 mx-auto text-emerald-400 mb-4" />
+          <h3 className="text-2xl font-bold mb-2">Project Request Created!</h3>
+          <p className="text-slate-400 mb-8">Your request is being reviewed. Current status:</p>
+          <div className="bg-white/5 p-6 rounded-lg border border-emerald-500/30">
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-medium">Status</span>
+              <span className="text-emerald-400 font-bold">Requirement Analysis</span>
+            </div>
+            <div className="mt-4 h-2 bg-slate-800 rounded-full overflow-hidden">
+              <motion.div initial={{ width: 0 }} animate={{ width: '30%' }} transition={{ duration: 1 }} className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500" />
+            </div>
+          </div>
+          <button onClick={() => setSubmitted(false)} className="mt-8 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+            Submit Another Request
+          </button>
+        </GlassPanel>
+      </div>
+    );
+  }
+  return (
+    <div className="w-full max-w-2xl">
+      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><DollarSign className="w-8 h-8 text-emerald-400" /> Start a Project</h2>
+      <GlassPanel>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Your Name / Company</label>
+            <input value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })} required className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-emerald-500" placeholder="Enter your name" />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Project Type</label>
+            <select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} required className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-emerald-500">
+              <option value="">Select a type</option>
+              <option value="web">Web Application</option>
+              <option value="mobile">Mobile App</option>
+              <option value="design">Design / Branding</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Budget Range</label>
+              <select value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} required className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-emerald-500">
+                <option value="">Select budget</option>
+                <option value="small">$500 - $2,000</option>
+                <option value="medium">$2,000 - $5,000</option>
+                <option value="large">$5,000+</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Timeline</label>
+              <select value={formData.timeline} onChange={(e) => setFormData({ ...formData, timeline: e.target.value })} required className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-emerald-500">
+                <option value="">Select timeline</option>
+                <option value="fast">1-2 weeks</option>
+                <option value="normal">1-2 months</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Project Requirements</label>
+            <textarea value={formData.requirements} onChange={(e) => setFormData({ ...formData, requirements: e.target.value })} required rows={6} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-emerald-500" placeholder="Describe your project..." />
+          </div>
+          <button type="submit" className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+            Submit Project Request
+          </button>
+        </form>
+      </GlassPanel>
+    </div>
+  );
+};
+
+const TestimonialsSection = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><MessageSquare className="w-8 h-8 text-pink-400" /> Client Testimonials</h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {TESTIMONIALS.map((t, i) => (
+        <motion.div key={t.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}>
+          <GlassPanel className="h-full">
+            <div className="flex items-center gap-1 mb-2">
+              {[...Array(5)].map((_, j) => <Star key={j} className={cn("w-4 h-4", j < t.rating ? "text-yellow-400 fill-yellow-400" : "text-slate-600")} />)}
+            </div>
+            <p className="text-slate-300 mb-4 italic">"{t.feedback}"</p>
+            <div className="pt-4 border-t border-white/10">
+              <div className="font-bold">{t.client}</div>
+              <div className="text-sm text-slate-400">{t.project}</div>
+            </div>
+          </GlassPanel>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
+const DevOpsPipeline = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><GitBranch className="w-8 h-8 text-yellow-400" /> Cloud & Deployment Pipeline</h2>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <GlassPanel className="lg:col-span-2">
+        <h3 className="font-bold mb-6 text-center text-lg">Deployment Flow</h3>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {[
+            { name: 'Code', icon: Code2, color: 'text-blue-400' },
+            { name: 'GitHub', icon: Github, color: 'text-gray-300' },
+            { name: 'CI/CD', icon: Workflow, color: 'text-yellow-400' },
+            { name: 'Cloud', icon: Cloud, color: 'text-cyan-400' },
+            { name: 'Live', icon: Rocket, color: 'text-emerald-400' }
+          ].map((step, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <div className="p-4 bg-white/5 rounded-xl text-center"><step.icon className={cn("w-10 h-10 mx-auto mb-2", step.color)} /><span className="font-medium">{step.name}</span></div>
+              {i < 4 && <ArrowRightLeft className="w-6 h-6 text-slate-600" />}
+            </div>
+          ))}
+        </div>
+      </GlassPanel>
+      <GlassPanel>
+        <h3 className="font-bold mb-4 text-blue-400">Pipeline Features</h3>
+        <ul className="space-y-3">
+          {[
+            { title: 'Version Control', icon: GitBranch, items: ['Git', 'GitHub', 'Branch strategy'] },
+            { title: 'Hosting', icon: Cloud, items: ['Vercel', 'Supabase', 'CDN'] },
+            { title: 'Monitoring', icon: Activity, items: ['Analytics', 'Logs', 'Performance'] }
+          ].map((section, i) => (
+            <div key={i}><div className="flex items-center gap-2 mb-2"><section.icon className="w-5 h-5 text-blue-400" /><h4 className="font-semibold">{section.title}</h4></div><ul className="space-y-1 ml-7">{section.items.map(item => <li key={item} className="text-sm text-slate-300 flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" />{item}</li>)}</ul></div>
+          ))}
+        </ul>
+      </GlassPanel>
+      <GlassPanel>
+        <h3 className="font-bold mb-4 text-yellow-400">Deployment Status</h3>
+        <div className="space-y-4">
+          {[ { name: 'Portfolio Website', status: 'Live', color: 'text-emerald-400' }, { name: 'GreenGrid Demo', status: 'Staging', color: 'text-yellow-400' }, { name: 'Shayan\'s System', status: 'Production', color: 'text-emerald-400' } ].map((app, i) => (
+            <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg"><span className="font-medium">{app.name}</span><span className={cn("text-sm font-bold", app.color)}>{app.status}</span></div>
+          ))}
+        </div>
+      </GlassPanel>
+    </div>
+  </div>
+);
+
+const ProblemSolvingCaseStudies = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><AlertCircle className="w-8 h-8 text-amber-400" /> Problem Solving Case Studies</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {CASE_STUDIES.map((cs, i) => (
+        <motion.div key={cs.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+          <GlassPanel className="h-full">
+            <div className={cn("h-24 rounded-lg bg-gradient-to-br mb-4", cs.color)} />
+            <div className="space-y-4">
+              <div><h4 className="text-sm text-slate-400 uppercase tracking-wider mb-1">Problem</h4><p className="font-medium text-amber-400">{cs.problem}</p></div>
+              <div><h4 className="text-sm text-slate-400 uppercase tracking-wider mb-1">Solution</h4><p className="font-medium text-emerald-400">{cs.solution}</p></div>
+              <div><h4 className="text-sm text-slate-400 uppercase tracking-wider mb-1">Tech Stack</h4><div className="flex flex-wrap gap-2">{cs.technology.map(tech => <span key={tech} className="text-xs px-2 py-1 bg-slate-800 rounded-full">{tech}</span>)}</div></div>
+              <div className="pt-4 border-t border-white/10"><h4 className="text-sm text-slate-400 uppercase tracking-wider mb-1">Outcome</h4><p className="font-bold text-blue-400">{cs.outcome}</p></div>
+            </div>
+          </GlassPanel>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
+const InteractiveContactWorkspace = () => {
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/Mohomed-Zaid-CV.pdf';
+    link.download = 'Mohomed-Zaid-CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+  return (
+    <div className="w-full max-w-4xl">
+      <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><Laptop className="w-8 h-8 text-purple-400" /> Interactive Contact Workspace</h2>
+      <GlassPanel className="min-h-[500px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { id: 'email', icon: Mail, label: 'Email', color: 'from-blue-500 to-cyan-500', action: () => window.location.href = 'mailto:Zaidn2848@gmail.com' },
+            { id: 'github', icon: Github, label: 'GitHub', color: 'from-gray-500 to-gray-700', action: () => window.open('https://github.com/Mohomed-Zaid', '_blank') },
+            { id: 'linkedin', icon: User, label: 'LinkedIn', color: 'from-blue-600 to-blue-800', action: () => window.open('https://www.linkedin.com/in/mohomed-zaid-5a81b4377', '_blank') },
+            { id: 'phone', icon: Globe, label: 'Phone', color: 'from-green-500 to-emerald-500', action: () => window.location.href = 'tel:+94777531318' },
+            { id: 'resume', icon: FileText, label: 'Resume', color: 'from-purple-500 to-pink-500', action: handleDownloadResume },
+            { id: 'contact', icon: MessageSquare, label: 'Message', color: 'from-orange-500 to-yellow-500', action: () => {} }
+          ].map((item, i) => (
+            <motion.button key={item.id} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={item.action} className="p-6 bg-white/5 rounded-lg border border-white/10 hover:border-white/30 flex flex-col items-center gap-3 transition-all">
+              <div className={cn("p-4 rounded-full bg-gradient-to-br", item.color)}><item.icon className="w-8 h-8 text-white" /></div>
+              <span className="font-medium">{item.label}</span>
+            </motion.button>
+          ))}
+        </div>
+      </GlassPanel>
+    </div>
+  );
+};
+
+const PrivateAnalyticsDashboard = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><BarChart3 className="w-8 h-8 text-indigo-400" /> Private Analytics Dashboard</h2>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      {[
+        { label: 'Total Visitors', value: '1,247', color: 'from-blue-500 to-cyan-500' },
+        { label: 'Most Viewed Project', value: 'Shayan\'s Kids', color: 'from-purple-500 to-pink-500' },
+        { label: 'Contact Requests', value: '12', color: 'from-green-500 to-emerald-500' },
+        { label: 'Demo Sessions', value: '34', color: 'from-orange-500 to-yellow-500' }
+      ].map((stat, i) => (
+        <GlassPanel key={i} className="text-center">
+          <div className={cn("text-2xl font-bold mb-1 bg-gradient-to-r", stat.color, "bg-clip-text text-transparent")}>{stat.value}</div>
+          <div className="text-sm text-slate-400">{stat.label}</div>
+        </GlassPanel>
+      ))}
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <GlassPanel className="h-80">
+        <h3 className="font-bold mb-4 text-indigo-400">Visitor Activity</h3>
+        <div className="h-60">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={ACTIVITY_DATA}>
+              <defs><linearGradient id="colorStats" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#818cf8" stopOpacity={0.3}/><stop offset="95%" stopColor="#818cf8" stopOpacity={0}/></linearGradient></defs>
+              <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }} />
+              <Area type="monotone" dataKey="commits" stroke="#818cf8" fillOpacity={1} fill="url(#colorStats)" />
+              <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} /><YAxis stroke="#94a3b8" fontSize={12} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </GlassPanel>
+      <GlassPanel className="h-80">
+        <h3 className="font-bold mb-4 text-purple-400">Popular Sections</h3>
+        <div className="h-60">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie data={[{ name: 'Projects', value: 40 }, { name: 'Skills', value: 25 }, { name: 'Showcase', value: 20 }, { name: 'Contact', value: 15 }]} cx="50%" cy="50%" outerRadius={80} dataKey="value" label>
+                {[0,1,2,3].map((index) => <Cell key={`cell-${index}`} fill={['#3b82f6','#a855f7','#10b981','#f59e0b'][index]} />)}
+              </Pie>
+              <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </GlassPanel>
+    </div>
+  </div>
+);
+
+const SystemHealthPanel = () => (
+  <div className="w-full max-w-6xl">
+    <h2 className="text-3xl font-bold mb-6 flex items-center gap-2"><ShieldCheck className="w-8 h-8 text-emerald-400" /> System Health</h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {SYSTEM_HEALTH_METRICS.map((metric, i) => (
+        <motion.div key={metric.name} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}>
+          <GlassPanel className="text-center">
+            <div className="relative w-32 h-32 mx-auto mb-4">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-3xl font-bold">{metric.value}%</span>
+              </div>
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="64" cy="64" r="56" fill="none" stroke="#1e293b" strokeWidth="12" />
+                <motion.circle cx="64" cy="64" r="56" fill="none" stroke="url(#healthGradient)" strokeWidth="12" strokeLinecap="round" initial={{ strokeDasharray: 352, strokeDashoffset: 352 }} animate={{ strokeDashoffset: 352 - (metric.value / 100 * 352) }} transition={{ delay: 0.3 + i * 0.1, duration: 1 }} />
+                <defs><linearGradient id="healthGradient" x1="0" y1="0" x2="100%" y2="0"><stop offset="0%" stopColor="#10b981" /><stop offset="100%" stopColor="#3b82f6" /></linearGradient></defs>
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold">{metric.name}</h3>
+          </GlassPanel>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
+const CommandBar = ({ isOpen, onClose, onCommand }: { isOpen: boolean; onClose: () => void; onCommand: (cmd: ModuleType) => void }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState('');
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-      setInput('');
-    }
-  }, [isOpen]);
-
+  useEffect(() => { if (isOpen) { setTimeout(() => inputRef.current?.focus(), 50); setInput(''); } }, [isOpen]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cmd = input.toLowerCase().trim();
-    
-    if (cmd === '/projects') { onCommand('projects'); onClose(); }
-    else if (cmd === '/skills') { onCommand('skills'); onClose(); }
-    else if (cmd === '/timeline') { onCommand('timeline'); onClose(); }
-    else if (cmd === '/contact') { onCommand('contact'); onClose(); }
-    else if (cmd === '/home') { onCommand('home'); onClose(); }
-    else if (cmd === '/sudo mode') { 
-        alert("Developer Mode Activated: You found the Easter Egg! 🎉");
-        onClose();
-    }
-    else {
-        // Shake animation logic could go here
-        onClose();
-    }
+    const commands: Record<string, ModuleType> = { 'home': 'home', 'projects': 'projects', 'skills': 'skills', 'timeline': 'timeline', 'contact': 'contact', 'terminal': 'terminal', 'achievements': 'achievements', 'resume': 'resume', 'demo': 'demo', 'showcase': 'showcase', 'architecture': 'architecture', 'code-quality': 'code-quality', 'freelance': 'freelance', 'testimonials': 'testimonials', 'devops': 'devops', 'case-studies': 'case-studies', 'analytics': 'analytics', 'system-health': 'system-health' };
+    if (commands[cmd]) { onCommand(commands[cmd]); onClose(); }
+    else onClose();
   };
-
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center pt-32 px-4">
-      <motion.div 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-        onClick={onClose}
-      />
-      <motion.div 
-        initial={{ scale: 0.95, y: -20, opacity: 0 }}
-        animate={{ scale: 1, y: 0, opacity: 1 }}
-        className="relative w-full max-w-xl bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden"
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <motion.div initial={{ scale: 0.95, y: -20, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} className="relative w-full max-w-xl bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden">
         <form onSubmit={handleSubmit} className="flex items-center gap-3 p-4 border-b border-slate-800">
           <Command className="w-5 h-5 text-blue-500 shrink-0" />
-          <input 
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-lg placeholder-slate-600"
-            placeholder="Type a command... (e.g. /projects, /skills)"
-          />
+          <input ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 bg-transparent outline-none text-lg placeholder-slate-600" placeholder="Type a command..." />
           <div className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-500 border border-slate-700">ESC</div>
         </form>
-        
         <div className="p-2 max-h-64 overflow-y-auto">
-           {input.length === 0 && (
-             <div className="px-2 py-4 text-center text-sm text-slate-500">
-               Available commands: /home, /projects, /skills, /timeline, /contact
-             </div>
-           )}
+          {input.length === 0 && (
+            <div className="grid grid-cols-2 gap-2 px-2">
+              {['home', 'projects', 'skills', 'showcase', 'architecture', 'code-quality', 'freelance', 'testimonials', 'devops', 'case-studies', 'analytics', 'system-health', 'terminal', 'contact', 'achievements', 'resume', 'demo'].map(c => (
+                <button key={c} onClick={() => { onCommand(c as ModuleType); onClose(); }} className="text-left px-4 py-2 hover:bg-white/5 rounded text-sm text-slate-300">
+                  {c}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
   );
 };
 
-// --- Main Application ---
-
+// --- Main App ---
 export default function LifeOSApp() {
   const [activeModule, setActiveModule] = useState<ModuleType>('home');
   const [isCommandOpen, setIsCommandOpen] = useState(false);
+  const [activeProjectId, setActiveProjectId] = useState<string | undefined>(undefined);
 
-  // Keyboard listener for '/'
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && !isCommandOpen) {
-        e.preventDefault();
-        setIsCommandOpen(true);
-      }
-      if (e.key === 'Escape') {
-        setIsCommandOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === '/' && !isCommandOpen) { e.preventDefault(); setIsCommandOpen(true); } if (e.key === 'Escape') setIsCommandOpen(false); };
+    window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isCommandOpen]);
+
+  const handleNavigate = (module: ModuleType, projectId?: string) => {
+    if (projectId) setActiveProjectId(projectId);
+    setActiveModule(module);
+  };
 
   const renderModule = () => {
     switch(activeModule) {
-      case 'home': return <MissionControl onNavigate={setActiveModule} />;
-      case 'projects': return <ProjectModule />;
+      case 'home': return <MissionControl onNavigate={handleNavigate} />;
+      case 'projects': return <ProjectModule onNavigate={handleNavigate} />;
       case 'skills': return <SkillMatrix />;
       case 'timeline': return <SystemLog />;
-      case 'contact': return <ContactPanel />;
-      default: return <MissionControl onNavigate={setActiveModule} />;
+      case 'contact': return <InteractiveContactWorkspace />;
+      case 'terminal': return <TerminalModule />;
+      case 'achievements': return <AchievementsModule />;
+      case 'resume': return <ResumeBuilder />;
+      case 'demo': return <DemoModule />;
+      case 'showcase': return <LiveProductShowcase activeProjectId={activeProjectId} />;
+      case 'architecture': return <SystemArchitectureExplorer />;
+      case 'code-quality': return <CodeQualityDashboard />;
+      case 'freelance': return <FreelanceProjectRequest />;
+      case 'testimonials': return <TestimonialsSection />;
+      case 'devops': return <DevOpsPipeline />;
+      case 'case-studies': return <ProblemSolvingCaseStudies />;
+      case 'analytics': return <PrivateAnalyticsDashboard />;
+      case 'system-health': return <SystemHealthPanel />;
+      default: return <MissionControl onNavigate={handleNavigate} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-slate-200 font-sans selection:bg-blue-500/30 overflow-hidden flex flex-col">
-      {/* Top Bar */}
       <header className="h-16 border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-md sticky top-0 z-40 px-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white fill-white" />
-          </div>
-          <div>
-             <h1 className="font-bold tracking-tight">Life<span className="text-blue-500">OS</span></h1>
-             <div className="text-[10px] text-slate-500 -mt-1 flex items-center gap-1.5">
-                <StatusLight />
-                <span>v2.4.1 • System Online</span>
-             </div>
-          </div>
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"><Zap className="w-5 h-5 text-white fill-white" /></div>
+          <div><h1 className="font-bold tracking-tight">Life<span className="text-blue-400">OS</span></h1><div className="text-[10px] text-slate-500 -mt-1 flex items-center gap-1.5"><StatusLight /><span>v3.0.0 • System Online</span></div></div>
         </div>
-
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1 flex-wrap">
           {[ 
-            { id: 'home', icon: LayoutDashboard, label: 'Mission Control' },
+            { id: 'home', icon: LayoutDashboard, label: 'Home' },
             { id: 'projects', icon: Layers, label: 'Projects' },
+            { id: 'showcase', icon: Play, label: 'Showcase' },
             { id: 'skills', icon: BarChart3, label: 'Skills' },
             { id: 'timeline', icon: Briefcase, label: 'Timeline' },
-            { id: 'contact', icon: MessageSquare, label: 'Contact' }
+            { id: 'terminal', icon: TerminalIcon, label: 'Terminal' },
+            { id: 'contact', icon: MessageSquare, label: 'Contact' },
+            { id: 'freelance', icon: DollarSign, label: 'Freelance' }
           ].map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveModule(item.id as ModuleType)}
-              className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
-                activeModule === item.id 
-                  ? "bg-white/10 text-white border border-white/10" 
-                  : "text-slate-400 hover:text-white hover:bg-white/5"
-              )}
-            >
-              <item.icon className="w-4 h-4" />
-              <span>{item.label}</span>
+            <button key={item.id} onClick={() => handleNavigate(item.id as ModuleType)} className={cn("px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2", activeModule === item.id ? "bg-white/10 text-white border border-white/10" : "text-slate-400 hover:text-white hover:bg-white/5")}>
+              <item.icon className="w-4 h-4" /><span className="hidden xl:inline">{item.label}</span>
             </button>
           ))}
         </nav>
-
-        <button 
-          onClick={() => setIsCommandOpen(true)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-xs font-mono text-slate-400"
-        >
-          <Terminal className="w-3.5 h-3.5" />
-          <span>Press '/' for commands</span>
+        <button onClick={() => setIsCommandOpen(true)} className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-xs font-mono text-slate-400">
+          <Terminal className="w-3.5 h-3.5" /><span>Press '/' for commands</span>
         </button>
       </header>
-
-      {/* Main Content Area */}
       <main className="flex-1 relative overflow-y-auto p-6 md:p-12">
-        <motion.div
-          key={activeModule}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-          className="h-full w-full flex flex-col items-center justify-start"
-        >
+        <motion.div key={activeModule} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="h-full w-full flex flex-col items-center justify-start">
           {renderModule()}
         </motion.div>
       </main>
-
-      {/* Command Palette */}
-      <AnimatePresence>
-        {isCommandOpen && (
-          <CommandBar 
-            isOpen={isCommandOpen} 
-            onClose={() => setIsCommandOpen(false)}
-            onCommand={setActiveModule}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Background Decorations */}
+      <AnimatePresence>{isCommandOpen && <CommandBar isOpen={isCommandOpen} onClose={() => setIsCommandOpen(false)} onCommand={handleNavigate} />}</AnimatePresence>
+      <ZaidAIAssistant />
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px]" />
@@ -812,3 +1372,67 @@ export default function LifeOSApp() {
     </div>
   );
 }
+
+// --- Demo Environment ---
+const DemoLogin = ({ onLogin }: { onLogin: (type: 'admin' | 'client' | 'manager') => void }) => (
+  <GlassPanel className="max-w-md w-full">
+    <div className="text-center mb-6"><h2 className="text-2xl font-bold">Demo Environment</h2><p className="text-slate-400 text-sm mt-2">Select your role to explore</p></div>
+    <div className="space-y-4">
+      <button onClick={() => onLogin('admin')} className="w-full p-4 GlassPanel hover:border-purple-500/50 transition-all text-left flex items-center gap-4">
+        <div className="p-3 rounded-full bg-purple-500/20 text-purple-400"><Lock className="w-6 h-6" /></div>
+        <div><h3 className="font-semibold">Admin</h3><p className="text-xs text-slate-400">Analytics & Reports</p></div>
+      </button>
+      <button onClick={() => onLogin('client')} className="w-full p-4 GlassPanel hover:border-blue-500/50 transition-all text-left flex items-center gap-4">
+        <div className="p-3 rounded-full bg-blue-500/20 text-blue-400"><UserRound className="w-6 h-6" /></div>
+        <div><h3 className="font-semibold">Client</h3><p className="text-xs text-slate-400">Orders & Messages</p></div>
+      </button>
+      <button onClick={() => onLogin('manager')} className="w-full p-4 GlassPanel hover:border-emerald-500/50 transition-all text-left flex items-center gap-4">
+        <div className="p-3 rounded-full bg-emerald-500/20 text-emerald-400"><Users className="w-6 h-6" /></div>
+        <div><h3 className="font-semibold">Manager</h3><p className="text-xs text-slate-400">Team & Tasks</p></div>
+      </button>
+    </div>
+  </GlassPanel>
+);
+
+const DemoModule = () => {
+  const [role, setRole] = useState<'none' | 'admin' | 'client' | 'manager'>('none');
+  if (role === 'admin') return <AdminDashboard onLogout={() => setRole('none')} />;
+  if (role === 'client') return <ClientDashboard onLogout={() => setRole('none')} />;
+  if (role === 'manager') return <ManagerDashboard onLogout={() => setRole('none')} />;
+  return <DemoLogin onLogin={setRole} />;
+};
+
+const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => (
+  <div className="w-full max-w-6xl">
+    <div className="flex items-center justify-between mb-6"><h2 className="text-2xl font-bold">Admin Dashboard</h2><button onClick={onLogout} className="flex items-center gap-2 text-sm text-slate-400 hover:text-white"><LogOut className="w-4 h-4" /> Logout</button></div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <GlassPanel className="text-center"><BarChart3 className="w-8 h-8 mx-auto text-blue-400 mb-2" /><div className="text-3xl font-bold">1,247</div><p className="text-sm text-slate-400">Total Users</p></GlassPanel>
+      <GlassPanel className="text-center"><Star className="w-8 h-8 mx-auto text-amber-400 mb-2" /><div className="text-3xl font-bold">4.8</div><p className="text-sm text-slate-400">Avg Rating</p></GlassPanel>
+      <GlassPanel className="text-center"><CreditCard className="w-8 h-8 mx-auto text-emerald-400 mb-2" /><div className="text-3xl font-bold">$48,900</div><p className="text-sm text-slate-400">Revenue</p></GlassPanel>
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <GlassPanel><h3 className="font-semibold mb-4">Recent Activity</h3><div className="space-y-3 text-sm text-slate-300">{['User signed up', 'Order placed', 'Payment received', 'Report generated'].map((a, i) => <div key={i} className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" />{a}</div>)}</div></GlassPanel>
+      <GlassPanel><h3 className="font-semibold mb-4">Analytics</h3><div className="h-48 bg-slate-900/50 rounded-lg flex items-center justify-center text-slate-500"><BarChart3 className="w-12 h-12 opacity-50" /></div></GlassPanel>
+    </div>
+  </div>
+);
+
+const ClientDashboard = ({ onLogout }: { onLogout: () => void }) => (
+  <div className="w-full max-w-6xl">
+    <div className="flex items-center justify-between mb-6"><h2 className="text-2xl font-bold">Client Portal</h2><button onClick={onLogout} className="flex items-center gap-2 text-sm text-slate-400 hover:text-white"><LogOut className="w-4 h-4" /> Logout</button></div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <GlassPanel><h3 className="font-semibold mb-4 flex items-center gap-2"><ShoppingCart className="w-5 h-5" /> My Orders</h3><div className="space-y-3">{[1,2,3].map(i => <div key={i} className="p-3 bg-white/5 rounded-lg flex items-center justify-between"><span>Order #{1000+i}</span><span className="text-emerald-400">Shipped</span></div>)}</div></GlassPanel>
+      <GlassPanel><h3 className="font-semibold mb-4 flex items-center gap-2"><MessageSquare className="w-5 h-5" /> Messages</h3><div className="space-y-3">{['Your order is ready', 'New promotion available'].map((m, i) => <div key={i} className="p-3 bg-white/5 rounded-lg text-sm">{m}</div>)}</div></GlassPanel>
+    </div>
+  </div>
+);
+
+const ManagerDashboard = ({ onLogout }: { onLogout: () => void }) => (
+  <div className="w-full max-w-6xl">
+    <div className="flex items-center justify-between mb-6"><h2 className="text-2xl font-bold">Manager Dashboard</h2><button onClick={onLogout} className="flex items-center gap-2 text-sm text-slate-400 hover:text-white"><LogOut className="w-4 h-4" /> Logout</button></div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <GlassPanel><h3 className="font-semibold mb-4 flex items-center gap-2"><Users className="w-5 h-5" /> Team</h3><div className="space-y-3">{['John Doe', 'Jane Smith', 'Bob Wilson'].map((n, i) => <div key={i} className="flex items-center justify-between p-2 bg-white/5 rounded-lg"><span>{n}</span><span className="text-xs text-emerald-400">Online</span></div>)}</div></GlassPanel>
+      <GlassPanel><h3 className="font-semibold mb-4 flex items-center gap-2"><Settings className="w-5 h-5" /> Tasks</h3><div className="space-y-3">{['Review PR #123', 'Update docs', 'Team sync'].map((t, i) => <div key={i} className="flex items-center gap-3"><input type="checkbox" checked={i === 0} className="rounded" /><span className={i === 0 ? 'line-through text-slate-500' : ''}>{t}</span></div>)}</div></GlassPanel>
+    </div>
+  </div>
+);
