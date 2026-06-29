@@ -1,0 +1,15 @@
+How to add your profile picture:
+
+1. Get a professional photo of yourself
+2. Resize it to a square (recommended 400x400 pixels)
+3. Save it as one of these formats:
+   - profile.jpg
+   - profile.jpeg
+   - profile.png
+4. Place it in this 'public' folder
+
+The app is already set up to use:
+- /profile.jpg (primary)
+- Fallback to icon if no image found
+
+You can update the code to use a different filename by editing the 'src' attribute in app/page.tsx line 632.
